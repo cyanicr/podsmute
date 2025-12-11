@@ -1,133 +1,96 @@
 # PodsMute
 
-A macOS menu bar application that detects AirPods Max crown button presses and toggles system-wide microphone mute.
+A macOS menu bar application that detects AirPods button presses and toggles system-wide microphone mute.
+
+## Supported Devices
+
+- AirPods Max (crown button)
+- AirPods Pro (stem press)
 
 ## Features
 
-- **Crown Button Detection**: Single press on the AirPods Max crown toggles microphone mute
-- **Menu Bar Integration**: Shows mute status with mic icon (mic.fill / mic.slash.fill)
-- **Connection Status**: View AirPods Max connection state
-- **Auto-Connect**: Automatically connects to paired AirPods Max on launch
-- **Manual Toggle**: Left-click icon or use menu to toggle mute
+- **Button Detection**: Press on AirPods toggles microphone mute
+- **Menu Bar Integration**: Shows headphones icon with colored mic badge (green = unmuted, red = muted)
+- **Visual Feedback**: Popover appears briefly when mute state changes
+- **Connection Status**: View AirPods connection state in the menu
+- **Light/Dark Mode**: Icon adapts to menu bar appearance
+- **Restore on Quit**: Microphone is restored to unmuted when app exits
 
 ## Requirements
 
 - macOS 14.0+ (Sonoma)
 - Xcode 15.0+
-- AirPods Max (paired via Bluetooth)
+- AirPods Max or AirPods Pro (paired via Bluetooth)
 
 ## Project Structure
 
 ```
-AirPodsMaxMute/
+PodsMute/
 ├── App/
-│   ├── AirPodsMaxMuteApp.swift    # SwiftUI App entry point
-│   ├── AppDelegate.swift          # App lifecycle & service wiring
-│   └── Info.plist                 # App configuration
+│   ├── PodsMuteApp.swift             # SwiftUI App entry point
+│   ├── AppDelegate.swift             # App lifecycle & service wiring
+│   └── Info.plist                    # App configuration
 ├── UI/
-│   └── StatusBarController.swift  # Menu bar icon & menu
+│   └── StatusBarController.swift     # Menu bar icon & menu
 ├── Services/
-│   ├── AudioMuteController.swift  # Core Audio mute control
-│   └── BluetoothManager.swift     # Swift Bluetooth wrapper
+│   ├── AudioMuteController.swift     # Core Audio mute control
+│   ├── AudioAccessoryMonitor.swift   # Darwin notification listener
+│   └── BluetoothManager.swift        # Bluetooth connection status
 ├── Bridge/
-│   ├── BluetoothBridge.h/.m       # Swift-friendly ObjC wrapper
-│   └── AirPodsMaxMute-Bridging-Header.h
-├── Core/
-│   ├── AirPodsProtocol.h/.c       # C protocol implementation
-│   └── L2CAPHandler.h/.m          # IOBluetooth L2CAP handler
-└── AirPodsMaxMute.entitlements
+│   └── PodsMute-Bridging-Header.h    # Bridging header for IOBluetooth
+├── Resources/
+│   └── Assets.xcassets/              # App icon
+└── PodsMute.entitlements
 ```
 
 ## Building
 
-### Option 1: Using xcodegen (Recommended)
+### Using xcodegen (Recommended)
 
 1. Install xcodegen:
    ```bash
    brew install xcodegen
    ```
 
-2. Generate and build:
+2. Generate Xcode project:
    ```bash
-   make build
+   xcodegen generate
    ```
 
-3. Or open in Xcode:
+3. Open in Xcode:
    ```bash
-   make open-xcode
+   open PodsMute.xcodeproj
    ```
 
-### Option 2: Manual Xcode Setup
-
-1. Create a new macOS App project in Xcode:
-   - Product Name: `AirPodsMaxMute`
-   - Team: (Your team or None)
-   - Organization Identifier: `com.airpodsmaxmute`
-   - Interface: SwiftUI
-   - Language: Swift
-
-2. Add source files:
-   - Drag all files from `AirPodsMaxMute/` into the project
-   - Ensure "Copy items if needed" is unchecked
-   - Select "Create groups"
-
-3. Configure Build Settings:
-   - **Objective-C Bridging Header**: `AirPodsMaxMute/Bridge/AirPodsMaxMute-Bridging-Header.h`
-   - **Other Linker Flags**: Add `-ObjC`
-
-4. Add Frameworks:
-   - IOBluetooth.framework
-   - CoreAudio.framework
-
-5. Configure Info.plist:
-   - Add `LSUIElement` = `YES` (menu bar only)
-   - Add Bluetooth usage description
-   - Add Microphone usage description
-
-6. Configure Entitlements:
-   - Enable `com.apple.security.device.bluetooth`
-   - Enable `com.apple.security.device.audio-input`
-   - Disable App Sandbox (required for IOBluetooth L2CAP)
-
-7. Build and run (⌘R)
+4. Build and run (Cmd+R)
 
 ## Usage
 
-1. Launch the app (it appears in the menu bar)
-2. The app automatically connects to your paired AirPods Max
-3. Press the crown button once to toggle microphone mute
-4. The menu bar icon updates to show mute state:
-   - 🎤 (mic.fill): Unmuted
-   - 🔇 (mic.slash.fill): Muted
+1. Launch the app (it appears in the menu bar with a headphones icon)
+2. The app automatically detects your paired AirPods
+3. Press the crown button (Max) or stem (Pro) to toggle microphone mute
+4. A popover briefly shows "Microphone On" or "Microphone Off"
+5. The mic badge on the icon updates:
+   - Green mic: Unmuted
+   - Red mic with slash: Muted
 
 ### Menu Options
 
 - **Left-click**: Toggle mute
 - **Right-click**: Show menu
-  - Toggle Mute (⌘M)
-  - Connection status
+  - Microphone status
+  - Toggle Mute (Cmd+M)
+  - AirPods connection status
   - Device name
-  - Reconnect (⌘R)
-  - Quit (⌘Q)
+  - Reconnect (Cmd+R)
+  - About PodsMute
+  - Quit (Cmd+Q)
 
 ## Technical Details
 
-### Bluetooth Protocol
+### How It Works
 
-This app uses the Apple Accessory Communication Protocol (AACP) discovered by the [librepods](https://github.com/kavishdevar/librepods) project:
-
-- **Transport**: L2CAP on PSM 0x1001
-- **Handshake**: 3-packet sequence to establish session
-- **Crown Events**: Opcode 0x19 (STEM_PRESS) with press type byte
-
-### Crown Press Types
-
-| Type | Value | Description |
-|------|-------|-------------|
-| Single | 0x05 | Quick tap (triggers mute toggle) |
-| Double | 0x06 | Two quick taps |
-| Triple | 0x07 | Three quick taps |
-| Long | 0x08 | Press and hold |
+The app listens for Darwin notifications from `audioaccessoryd`, the macOS daemon that handles audio accessory events. When AirPods trigger a mute action, the daemon emits a `com.apple.audioaccessoryd.MuteState` notification which this app intercepts to toggle the system microphone.
 
 ### Audio Mute
 
@@ -135,33 +98,31 @@ Uses Core Audio HAL APIs:
 - `kAudioHardwarePropertyDefaultInputDevice` - Get default mic
 - `kAudioDevicePropertyMute` - Get/set mute state
 
+### Bluetooth Status
+
+Uses IOBluetooth to check connection status of paired AirPods devices for display purposes.
+
 ## Troubleshooting
 
-### "No paired AirPods Max found"
+### "No paired AirPods found"
 
-1. Ensure AirPods Max are paired in System Preferences > Bluetooth
+1. Ensure AirPods are paired in System Settings > Bluetooth
 2. Connect to them at least once manually
 3. Restart the app
 
-### Connection fails
-
-1. Check that AirPods Max are charged and nearby
-2. Try disconnecting and reconnecting in System Preferences
-3. Use "Reconnect" from the menu
-
 ### Mute doesn't work
 
-1. Check System Preferences > Security & Privacy > Microphone
+1. Check System Settings > Privacy & Security > Microphone
 2. Ensure the app has microphone access permission
+3. Make sure AirPods are connected and set as input device
 
-### App Sandbox Issues
+### Icon color wrong in light/dark mode
 
-This app requires non-sandboxed execution for IOBluetooth L2CAP access. If you need App Store distribution, you'll need to use Apple's official Bluetooth framework (CoreBluetooth) which has different limitations.
+The icon should automatically adapt when you switch modes. If it doesn't update immediately, toggle the mute state once.
 
 ## Credits
 
-- Protocol reverse engineering: [librepods](https://github.com/kavishdevar/librepods)
-- Inspired by [mic-mute](https://github.com/brettinternet/mic-mute)
+- Protocol research: [librepods](https://github.com/kavishdevar/librepods)
 
 ## License
 
