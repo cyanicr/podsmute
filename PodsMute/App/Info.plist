@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Bundle Information -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <!-- App Icon -->
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+
+    <!-- Menu Bar Only App (no dock icon) -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- Minimum macOS Version -->
+    <key>LSMinimumSystemVersion</key>
+    <string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+
+    <!-- Application Category -->
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+
+    <!-- Privacy Descriptions (required for Bluetooth and Microphone access) -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>PodsMute needs Bluetooth access to detect your AirPods connection status.</string>
+
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>PodsMute needs Bluetooth access to detect your AirPods.</string>
+
+    <key>NSMicrophoneUsageDescription</key>
+    <string>PodsMute needs microphone access to control the system-wide mute state.</string>
+
+    <!-- High Resolution Support -->
+    <key>NSHighResolutionCapable</key>
+    <true/>
+
+    <!-- Supports Secure Coding -->
+    <key>NSSupportsSecureStateRestoration</key>
+    <true/>
+
+    <!-- Principal Class for SwiftUI App -->
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+</dict>
+</plist>

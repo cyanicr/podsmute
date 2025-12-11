@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Bluetooth Access -->
+    <key>com.apple.security.device.bluetooth</key>
+    <true/>
+
+    <!-- Audio Input (Microphone) Access -->
+    <key>com.apple.security.device.audio-input</key>
+    <true/>
+
+    <!-- App Sandbox (disabled for direct IOBluetooth access) -->
+    <!-- Note: IOBluetooth L2CAP requires non-sandboxed access -->
+    <!-- If you need App Store distribution, you'll need to use
+         Apple's official Bluetooth framework instead -->
+</dict>
+</plist>

@@ -1,0 +1,419 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		31D968C52EE89FF100CE703C /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31D968C42EE89FF100CE703C /* AppIcon.icns */; };
+		4858453AC7AEF3575566CC45 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF4C6BD82713D6B817092EF /* CoreAudio.framework */; };
+		7EB1763721962FA2554DB2DA /* PodsMuteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DEFCE9EF839109AAB5DB5A /* PodsMuteApp.swift */; };
+		9973D694A7FC6BD1D4891ABF /* AudioAccessoryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73538844FEA894F7FBC2E66D /* AudioAccessoryMonitor.swift */; };
+		9FC807F9FCF708EEC67C6C90 /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E07DA6711D12BFB1F0182 /* StatusBarController.swift */; };
+		BB0BD99D5E7F4B2D819C69E3 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D77BC34E631E2BCDE420B9 /* BluetoothManager.swift */; };
+		E54EF3A9ECC33C27E887C227 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25F062F51F8D6C97166F2F7 /* Cocoa.framework */; };
+		E5653B2A9DB346A57F338EE7 /* AudioMuteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26B96934BB0614761F88913 /* AudioMuteController.swift */; };
+		ED7EAEB0DA64857E8C360556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD850274536DA42968B9FB2 /* AppDelegate.swift */; };
+		F992AE49381FE48D748AD93A /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F854C8347EC19C6BFD62FA3C /* IOBluetooth.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0DD850274536DA42968B9FB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		26D77BC34E631E2BCDE420B9 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		31D968C42EE89FF100CE703C /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		501C9A01B95DE856250B7E35 /* PodsMute.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PodsMute.entitlements; sourceTree = "<group>"; };
+		73538844FEA894F7FBC2E66D /* AudioAccessoryMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioAccessoryMonitor.swift; sourceTree = "<group>"; };
+		90BE3A89C12CA9404F743738 /* PodsMute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PodsMute.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F6A6C09AC4F893074FC7996 /* PodsMute-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PodsMute-Bridging-Header.h"; sourceTree = "<group>"; };
+		B56E07DA6711D12BFB1F0182 /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+		BDD459EE935302520878AAA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D25F062F51F8D6C97166F2F7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cocoa.framework; sourceTree = "<group>"; };
+		D26B96934BB0614761F88913 /* AudioMuteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMuteController.swift; sourceTree = "<group>"; };
+		D5DEFCE9EF839109AAB5DB5A /* PodsMuteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodsMuteApp.swift; sourceTree = "<group>"; };
+		F854C8347EC19C6BFD62FA3C /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOBluetooth.framework; sourceTree = "<group>"; };
+		FCF4C6BD82713D6B817092EF /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreAudio.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CC8ED3C385C5864BD2316F57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F992AE49381FE48D748AD93A /* IOBluetooth.framework in Frameworks */,
+				4858453AC7AEF3575566CC45 /* CoreAudio.framework in Frameworks */,
+				E54EF3A9ECC33C27E887C227 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F786CF4250AE116BF9C40DF /* PodsMute */ = {
+			isa = PBXGroup;
+			children = (
+				506B06D3F0E9FFBEE62B946B /* App */,
+				E8E755E6466FA9C335D1F999 /* Bridge */,
+				5672D0B19F5E37276BA21575 /* Resources */,
+				E00D042AA7AC124FCF9D06A8 /* Services */,
+				E0A1E1792B9125D890B14229 /* UI */,
+				501C9A01B95DE856250B7E35 /* PodsMute.entitlements */,
+			);
+			path = PodsMute;
+			sourceTree = "<group>";
+		};
+		2EE6515F8C7A8FEB0B9D8D8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D25F062F51F8D6C97166F2F7 /* Cocoa.framework */,
+				FCF4C6BD82713D6B817092EF /* CoreAudio.framework */,
+				F854C8347EC19C6BFD62FA3C /* IOBluetooth.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		506B06D3F0E9FFBEE62B946B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0DD850274536DA42968B9FB2 /* AppDelegate.swift */,
+				BDD459EE935302520878AAA1 /* Info.plist */,
+				D5DEFCE9EF839109AAB5DB5A /* PodsMuteApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5672D0B19F5E37276BA21575 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				31D968C42EE89FF100CE703C /* AppIcon.icns */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5DBF3392A66BD7CB057FB62F = {
+			isa = PBXGroup;
+			children = (
+				1F786CF4250AE116BF9C40DF /* PodsMute */,
+				2EE6515F8C7A8FEB0B9D8D8F /* Frameworks */,
+				DF523DF552AF2DDA400DA576 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DF523DF552AF2DDA400DA576 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				90BE3A89C12CA9404F743738 /* PodsMute.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E00D042AA7AC124FCF9D06A8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				73538844FEA894F7FBC2E66D /* AudioAccessoryMonitor.swift */,
+				D26B96934BB0614761F88913 /* AudioMuteController.swift */,
+				26D77BC34E631E2BCDE420B9 /* BluetoothManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0A1E1792B9125D890B14229 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B56E07DA6711D12BFB1F0182 /* StatusBarController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E8E755E6466FA9C335D1F999 /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				9F6A6C09AC4F893074FC7996 /* PodsMute-Bridging-Header.h */,
+			);
+			path = Bridge;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A95EF8D5DDD26595CFB282DC /* PodsMute */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43F0A9E624FED050B131E817 /* Build configuration list for PBXNativeTarget "PodsMute" */;
+			buildPhases = (
+				9A4C3B0E61AC7FB8354FBDDA /* Sources */,
+				098B7206C42335B684005671 /* Resources */,
+				CC8ED3C385C5864BD2316F57 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PodsMute;
+			packageProductDependencies = (
+			);
+			productName = PodsMute;
+			productReference = 90BE3A89C12CA9404F743738 /* PodsMute.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E44E0B3300BC194918BD24C3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A95EF8D5DDD26595CFB282DC = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 96AE2A6F51C966928290EE97 /* Build configuration list for PBXProject "PodsMute" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 5DBF3392A66BD7CB057FB62F;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A95EF8D5DDD26595CFB282DC /* PodsMute */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		098B7206C42335B684005671 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31D968C52EE89FF100CE703C /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A4C3B0E61AC7FB8354FBDDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED7EAEB0DA64857E8C360556 /* AppDelegate.swift in Sources */,
+				9973D694A7FC6BD1D4891ABF /* AudioAccessoryMonitor.swift in Sources */,
+				E5653B2A9DB346A57F338EE7 /* AudioMuteController.swift in Sources */,
+				BB0BD99D5E7F4B2D819C69E3 /* BluetoothManager.swift in Sources */,
+				7EB1763721962FA2554DB2DA /* PodsMuteApp.swift in Sources */,
+				9FC807F9FCF708EEC67C6C90 /* StatusBarController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		39B09109015928CF25A48E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		5AFD19D17BC9299D4B0F9202 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PodsMute/PodsMute.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = PodsMute/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.podsmute.app;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "PodsMute/Bridge/PodsMute-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		BE79B1FF15624FDF378D30AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		EBDB30F6F4DDF1811A5B6D70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PodsMute/PodsMute.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = PodsMute/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.podsmute.app;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "PodsMute/Bridge/PodsMute-Bridging-Header.h";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43F0A9E624FED050B131E817 /* Build configuration list for PBXNativeTarget "PodsMute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBDB30F6F4DDF1811A5B6D70 /* Debug */,
+				5AFD19D17BC9299D4B0F9202 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		96AE2A6F51C966928290EE97 /* Build configuration list for PBXProject "PodsMute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE79B1FF15624FDF378D30AC /* Debug */,
+				39B09109015928CF25A48E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E44E0B3300BC194918BD24C3 /* Project object */;
+}

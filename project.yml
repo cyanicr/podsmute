@@ -1,0 +1,51 @@
+name: PodsMute
+options:
+  bundleIdPrefix: com.podsmute
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    CLANG_ENABLE_MODULES: YES
+    ENABLE_HARDENED_RUNTIME: YES
+
+targets:
+  PodsMute:
+    type: application
+    platform: macOS
+    sources:
+      - path: PodsMute
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.podsmute.app
+        INFOPLIST_FILE: PodsMute/App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: PodsMute/PodsMute.entitlements
+        SWIFT_OBJC_BRIDGING_HEADER: PodsMute/Bridge/PodsMute-Bridging-Header.h
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+        COMBINE_HIDPI_IMAGES: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        OTHER_LDFLAGS:
+          - "-ObjC"
+        # Disable sandbox for IOBluetooth access
+        ENABLE_APP_SANDBOX: NO
+        # Code signing
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+    dependencies:
+      - framework: IOBluetooth.framework
+        embed: false
+      - framework: CoreAudio.framework
+        embed: false
+      - framework: Cocoa.framework
+        embed: false
