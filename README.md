@@ -1,4 +1,4 @@
-# AirPods Max Mute
+# PodsMute
 
 A macOS menu bar application that detects AirPods Max crown button presses and toggles system-wide microphone mute.
 
