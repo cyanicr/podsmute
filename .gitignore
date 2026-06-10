@@ -1,0 +1,13 @@
+# macOS AppleDouble metadata
+._*
+**/._*
+
+# Xcode user/local state
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Build products
+DerivedData/
+build/

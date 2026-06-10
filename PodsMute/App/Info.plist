@@ -23,6 +23,8 @@
     <!-- App Icon -->
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
 
     <!-- Menu Bar Only App (no dock icon) -->
     <key>LSUIElement</key>

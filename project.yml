@@ -47,5 +47,7 @@ targets:
         embed: false
       - framework: CoreAudio.framework
         embed: false
+      - framework: MediaPlayer.framework
+        embed: false
       - framework: Cocoa.framework
         embed: false

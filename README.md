@@ -10,6 +10,7 @@ A macOS menu bar application that detects AirPods button presses and toggles sys
 ## Features
 
 - **Button Detection**: Press on AirPods toggles microphone mute
+- **Media Key Capture**: Crown presses mapped to Play/Pause are consumed so they do not launch Music
 - **Menu Bar Integration**: Shows headphones icon with colored mic badge (green = unmuted, red = muted)
 - **Visual Feedback**: Popover appears briefly when mute state changes
 - **Connection Status**: View AirPods connection state in the menu
@@ -35,7 +36,8 @@ PodsMute/
 ├── Services/
 │   ├── AudioMuteController.swift     # Core Audio mute control
 │   ├── AudioAccessoryMonitor.swift   # Darwin notification listener
-│   └── BluetoothManager.swift        # Bluetooth connection status
+│   ├── BluetoothManager.swift        # Bluetooth connection status
+│   └── MediaKeyMonitor.swift         # Play/Pause media key capture
 ├── Bridge/
 │   └── PodsMute-Bridging-Header.h    # Bridging header for IOBluetooth
 ├── Resources/
@@ -92,6 +94,8 @@ PodsMute/
 
 The app listens for Darwin notifications from `audioaccessoryd`, the macOS daemon that handles audio accessory events. When AirPods trigger a mute action, the daemon emits a `com.apple.audioaccessoryd.MuteState` notification which this app intercepts to toggle the system microphone.
 
+AirPods Max crown presses can also arrive as a system Play/Pause media key. PodsMute installs a media-key event tap, consumes that event, and toggles mute so macOS does not route the press to Music.
+
 ### Audio Mute
 
 Uses Core Audio HAL APIs:
@@ -114,7 +118,9 @@ Uses IOBluetooth to check connection status of paired AirPods devices for displa
 
 1. Check System Settings > Privacy & Security > Microphone
 2. Ensure the app has microphone access permission
-3. Make sure AirPods are connected and set as input device
+3. Check System Settings > Privacy & Security > Accessibility
+4. Ensure the app has Accessibility permission so it can intercept Play/Pause media keys
+5. Make sure AirPods are connected and set as input device
 
 ### Icon color wrong in light/dark mode
 

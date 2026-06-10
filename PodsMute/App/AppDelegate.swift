@@ -24,6 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var audioController: AudioMuteController!
     private var audioAccessoryMonitor: AudioAccessoryMonitor!
+    private var mediaKeyMonitor: MediaKeyMonitor!
+    private var musicLaunchMonitor: MusicLaunchMonitor!
+    private var interceptDiagnosticsMonitor: InterceptDiagnosticsMonitor!
+    private var remoteCommandCenterMonitor: RemoteCommandCenterMonitor!
     private var statusBarController: StatusBarController!
 
     // Keep reference to BluetoothManager for device detection (status display)
@@ -40,6 +44,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Setup audioaccessoryd notification monitoring
         setupAudioAccessoryMonitoring()
 
+        // Also catch AirPods crown presses that arrive as media Play/Pause events.
+        setupMediaKeyMonitoring()
+
+        // Fallback for AirPods remote commands that bypass keyboard event taps.
+        setupMusicLaunchMonitoring()
+
+        // Try to consume media-remote commands before Music is launched.
+        setupRemoteCommandCenterMonitoring()
+
+        // Diagnostic logging for candidate event sources.
+        interceptDiagnosticsMonitor.startMonitoring()
+
         print("[AppDelegate] Application ready")
         print("[AppDelegate] Press your AirPods button to toggle mute")
         print("[AppDelegate] Listening for audioaccessoryd mute state notifications...")
@@ -55,6 +71,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         audioAccessoryMonitor?.stopMonitoring()
+        mediaKeyMonitor?.stopMonitoring()
+        musicLaunchMonitor?.stopMonitoring()
+        interceptDiagnosticsMonitor?.stopMonitoring()
+        remoteCommandCenterMonitor?.stopMonitoring()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -72,6 +92,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Create audio accessory monitor (for AirPods crown button detection)
         audioAccessoryMonitor = AudioAccessoryMonitor()
+
+        // Create media key monitor (for crown presses mapped to Play/Pause)
+        mediaKeyMonitor = MediaKeyMonitor()
+
+        // Create Music launch monitor (fallback for Bluetooth remote commands)
+        musicLaunchMonitor = MusicLaunchMonitor()
+
+        // Create diagnostics monitor
+        interceptDiagnosticsMonitor = InterceptDiagnosticsMonitor()
+
+        // Create media remote command monitor
+        remoteCommandCenterMonitor = RemoteCommandCenterMonitor()
 
         // Create status bar controller
         statusBarController = StatusBarController(
@@ -111,6 +143,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             print("[AppDelegate] WARNING: Failed to start audio accessory monitoring")
         }
+    }
+
+    private func setupMediaKeyMonitoring() {
+        mediaKeyMonitor.onPlayPausePressed = { [weak self] in
+            guard let self = self else { return }
+
+            print("[AppDelegate] AirPods media key press received")
+
+            self.audioController.toggleMute()
+            self.statusBarController.updateIcon()
+            self.statusBarController.showMutePopover(isMuted: self.audioController.isMuted)
+        }
+
+        let success = mediaKeyMonitor.startMonitoring()
+
+        if success {
+            print("[AppDelegate] Media key monitoring started successfully")
+        } else {
+            print("[AppDelegate] WARNING: Failed to start media key monitoring")
+        }
+    }
+
+    private func setupMusicLaunchMonitoring() {
+        musicLaunchMonitor.onMusicLaunch = { [weak self] in
+            guard let self = self else { return }
+
+            print("[AppDelegate] Music launch fallback received")
+
+            self.audioController.toggleMute()
+            self.statusBarController.updateIcon()
+            self.statusBarController.showMutePopover(isMuted: self.audioController.isMuted)
+        }
+
+        musicLaunchMonitor.startMonitoring()
+    }
+
+    private func setupRemoteCommandCenterMonitoring() {
+        remoteCommandCenterMonitor.onRemoteCommand = { [weak self] in
+            guard let self = self else { return }
+
+            print("[AppDelegate] Media remote command received")
+
+            self.audioController.toggleMute()
+            self.statusBarController.updateIcon()
+            self.statusBarController.showMutePopover(isMuted: self.audioController.isMuted)
+        }
+
+        remoteCommandCenterMonitor.startMonitoring()
     }
 
     private func checkForAirPods() {
