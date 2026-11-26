@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A74EBD65BC341E49FA01001 /* AVFAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A74EBD65BC341E49FA01002 /* AVFAudio.framework */; };
 		31D968C52EE89FF100CE703C /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31D968C42EE89FF100CE703C /* AppIcon.icns */; };
 		4858453AC7AEF3575566CC45 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF4C6BD82713D6B817092EF /* CoreAudio.framework */; };
 		7EB1763721962FA2554DB2DA /* PodsMuteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DEFCE9EF839109AAB5DB5A /* PodsMuteApp.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A74EBD65BC341E49FA01002 /* AVFAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = System/Library/Frameworks/AVFAudio.framework; sourceTree = SDKROOT; };
 		0DD850274536DA42968B9FB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26D77BC34E631E2BCDE420B9 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		31D968C42EE89FF100CE703C /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
@@ -41,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A74EBD65BC341E49FA01001 /* AVFAudio.framework in Frameworks */,
 				F992AE49381FE48D748AD93A /* IOBluetooth.framework in Frameworks */,
 				4858453AC7AEF3575566CC45 /* CoreAudio.framework in Frameworks */,
 				E54EF3A9ECC33C27E887C227 /* Cocoa.framework in Frameworks */,
@@ -66,6 +69,7 @@
 		2EE6515F8C7A8FEB0B9D8D8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A74EBD65BC341E49FA01002 /* AVFAudio.framework */,
 				D25F062F51F8D6C97166F2F7 /* Cocoa.framework */,
 				FCF4C6BD82713D6B817092EF /* CoreAudio.framework */,
 				F854C8347EC19C6BFD62FA3C /* IOBluetooth.framework */,

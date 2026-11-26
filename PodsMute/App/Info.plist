@@ -44,7 +44,7 @@
     <string>PodsMute needs Bluetooth access to detect your AirPods.</string>
 
     <key>NSMicrophoneUsageDescription</key>
-    <string>PodsMute needs microphone access to control the system-wide mute state.</string>
+    <string>PodsMute discards microphone input locally while live AirPods controls are enabled.</string>
 
     <!-- High Resolution Support -->
     <key>NSHighResolutionCapable</key>

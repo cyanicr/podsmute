@@ -14,12 +14,13 @@ A macOS menu bar application that detects AirPods button presses and toggles sys
 - **Visual Feedback**: Popover appears briefly when mute state changes
 - **Connection Status**: View AirPods connection state in the menu
 - **Light/Dark Mode**: Icon adapts to menu bar appearance
-- **Restore on Quit**: Microphone is restored to unmuted when app exits
+- **Live AirPods Controls**: Opt in to the macOS Press to Mute handler
+- **App Priority**: Yield the AirPods gesture while selected apps use the mic (macOS 14.2+)
 
 ## Requirements
 
 - macOS 14.0+ (Sonoma)
-- Xcode 15.0+
+- Xcode 15.2+ (macOS 14.2 SDK or later)
 - AirPods Max or AirPods Pro (paired via Bluetooth)
 
 ## Project Structure
@@ -74,6 +75,14 @@ PodsMute/
    - Green mic: Unmuted
    - Red mic with slash: Muted
 
+### Live AirPods Controls
+
+Turn on **Use Live AirPods Controls** in the menu and allow microphone access. PodsMute opens an input stream while this option is active and discards its audio buffers without saving or sending them.
+
+Under **Give AirPods Priority To**, select which apps should handle the gesture while using the microphone. Zoom is selected by default. The menu shows active microphone apps. Use **Add Application…** to select an app before it opens the microphone.
+
+PodsMute closes its stream and releases its mute handler while a selected app is using the mic. It resumes live controls after the selected apps release the mic, if you left live controls enabled. macOS decides where to deliver the gesture. Enable the preferred app's own AirPods controls when available.
+
 ### Menu Options
 
 - **Left-click**: Toggle mute
@@ -90,7 +99,7 @@ PodsMute/
 
 ### How It Works
 
-The app listens for Darwin notifications from `audioaccessoryd`, the macOS daemon that handles audio accessory events. When AirPods trigger a mute action, the daemon emits a `com.apple.audioaccessoryd.MuteState` notification which this app intercepts to toggle the system microphone.
+By default, PodsMute listens for mute notifications from `audioaccessoryd`. Live AirPods Controls uses the macOS `AVAudioApplication` input mute handler instead. Both modes mute the current default input through Core Audio.
 
 ### Audio Mute
 

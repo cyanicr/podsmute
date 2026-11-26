@@ -63,31 +63,39 @@ final class AudioMuteController: ObservableObject {
             return
         }
 
-        var muteValue: UInt32 = muted ? 1 : 0
+        if Self.writeMute(muted, to: defaultInputDeviceID) {
+            isMuted = muted
+        }
+    }
 
-        var propertyAddress = AudioObjectPropertyAddress(
+    // macOS can call the gesture handler off the main thread.
+    static func muteDefaultInput(_ muted: Bool) -> Bool {
+        var address = AudioObjectPropertyAddress(
+            mSelector: kAudioHardwarePropertyDefaultInputDevice,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain
+        )
+        var device = AudioObjectID(kAudioObjectUnknown)
+        var size = UInt32(MemoryLayout<AudioObjectID>.size)
+        guard AudioObjectGetPropertyData(
+            AudioObjectID(kAudioObjectSystemObject), &address, 0, nil, &size, &device
+        ) == noErr, device != kAudioObjectUnknown else {
+            return false
+        }
+        return writeMute(muted, to: device)
+    }
+
+    private static func writeMute(_ muted: Bool, to device: AudioObjectID) -> Bool {
+        var value: UInt32 = muted ? 1 : 0
+        var address = AudioObjectPropertyAddress(
             mSelector: kAudioDevicePropertyMute,
             mScope: kAudioObjectPropertyScopeInput,
             mElement: kAudioObjectPropertyElementMain
         )
-
         let result = AudioObjectSetPropertyData(
-            defaultInputDeviceID,
-            &propertyAddress,
-            0,
-            nil,
-            UInt32(MemoryLayout<UInt32>.size),
-            &muteValue
+            device, &address, 0, nil, UInt32(MemoryLayout<UInt32>.size), &value
         )
-
-        if result == noErr {
-//            DispatchQueue.main.async {
-            self.isMuted = muted
-//            }
-            print("[AudioMuteController] Mute set to: \(muted)")
-        } else {
-            print("[AudioMuteController] Failed to set mute state: \(result)")
-        }
+        return result == noErr
     }
 
     /// Refresh the current mute state from the device.
@@ -221,9 +229,7 @@ final class AudioMuteController: ObservableObject {
         )
 
         if result == noErr {
-            DispatchQueue.main.async {
-                self.isMuted = muteValue != 0
-            }
+            isMuted = muteValue != 0
         }
     }
 
@@ -321,5 +327,57 @@ final class AudioMuteController: ObservableObject {
 
         // Remove mute change listener
         removeMuteChangeListener()
+    }
+}
+
+enum MicrophoneActivity {
+    static func activeBundleIDs() -> Set<String>? {
+        guard #available(macOS 14.2, *) else { return nil }
+        let system = AudioObjectID(kAudioObjectSystemObject)
+        var list = address(kAudioHardwarePropertyProcessObjectList)
+        var size: UInt32 = 0
+        guard AudioObjectGetPropertyDataSize(system, &list, 0, nil, &size) == noErr else {
+            return nil
+        }
+        guard size > 0 else { return [] }
+
+        var processes = [AudioObjectID](repeating: 0, count: Int(size) / MemoryLayout<AudioObjectID>.size)
+        let status = processes.withUnsafeMutableBytes {
+            AudioObjectGetPropertyData(system, &list, 0, nil, &size, $0.baseAddress!)
+        }
+        guard status == noErr else { return nil }
+
+        return Set(processes.prefix(Int(size) / MemoryLayout<AudioObjectID>.size).compactMap { process in
+            var running = address(kAudioProcessPropertyIsRunningInput)
+            var active: UInt32 = 0
+            var activeSize = UInt32(MemoryLayout<UInt32>.size)
+            guard AudioObjectGetPropertyData(process, &running, 0, nil, &activeSize, &active) == noErr,
+                  active != 0 else { return nil }
+
+            var bundle = address(kAudioProcessPropertyBundleID)
+            var identifier: Unmanaged<CFString>?
+            var bundleSize = UInt32(MemoryLayout.size(ofValue: identifier))
+            guard AudioObjectGetPropertyData(process, &bundle, 0, nil, &bundleSize, &identifier) == noErr else {
+                return nil
+            }
+            return identifier?.takeRetainedValue() as String?
+        })
+    }
+
+    static func matches(_ activeID: String, appID: String) -> Bool {
+        let activeID = activeID.lowercased()
+        let appID = appID.lowercased()
+        if appID == "us.zoom.xos" {
+            return activeID.hasPrefix("us.zoom.")
+        }
+        return activeID == appID || activeID.hasPrefix(appID + ".")
+    }
+
+    private static func address(_ selector: AudioObjectPropertySelector) -> AudioObjectPropertyAddress {
+        AudioObjectPropertyAddress(
+            mSelector: selector,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain
+        )
     }
 }
