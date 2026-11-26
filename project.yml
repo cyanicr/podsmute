@@ -3,7 +3,7 @@ options:
   bundleIdPrefix: com.podsmute
   deploymentTarget:
     macOS: "14.0"
-  xcodeVersion: "15.0"
+  xcodeVersion: "15.2"
   generateEmptyDirectories: true
   groupSortPosition: top
 
@@ -43,6 +43,8 @@ targets:
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
     dependencies:
+      - framework: AVFAudio.framework
+        embed: false
       - framework: IOBluetooth.framework
         embed: false
       - framework: CoreAudio.framework

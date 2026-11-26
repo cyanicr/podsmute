@@ -9,7 +9,7 @@ import Cocoa
 import Combine
 
 /// Manages the menu bar status item with mic icon and dropdown menu.
-final class StatusBarController {
+final class StatusBarController: NSObject, NSMenuDelegate {
 
     // MARK: - Properties
 
@@ -19,6 +19,16 @@ final class StatusBarController {
 
     private var cancellables = Set<AnyCancellable>()
     private var mutePopover: NSPopover?
+    var onToggleMute: (() -> Void)?
+    var onToggleStemControl: ((NSMenuItem) -> Void)?
+    var onChangePriority: ((String, String) -> Void)?
+    var onChoosePriorityApp: (() -> Void)?
+    var priorityApps: [String: String] = [:]
+    var activeMicApps: [String: String] = [:]
+    var onOpenPriorityMenu: (() -> Void)?
+    private let priorityMenu = NSMenu()
+    private var stemStatusItem: NSMenuItem?
+    private var stemControlItem: NSMenuItem?
 
     // Menu item tags for updating
     private enum MenuItemTag: Int {
@@ -36,6 +46,7 @@ final class StatusBarController {
         // Create status bar item with variable length
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
+        super.init()
         setupButton()
         setupMenu()
         setupObservers()
@@ -90,6 +101,28 @@ final class StatusBarController {
         connectionHeader.isEnabled = false
         menu.addItem(connectionHeader)
 
+        let stemItem = NSMenuItem(
+            title: "Use Live AirPods Controls",
+            action: #selector(toggleStemControl(_:)),
+            keyEquivalent: ""
+        )
+        stemItem.target = self
+        menu.addItem(stemItem)
+        stemControlItem = stemItem
+
+        let stemStatus = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        stemStatus.isHidden = true
+        stemStatus.isEnabled = false
+        menu.addItem(stemStatus)
+        stemStatusItem = stemStatus
+
+        if #available(macOS 14.2, *) {
+            let priorityItem = NSMenuItem(title: "Give AirPods Priority To", action: nil, keyEquivalent: "")
+            priorityItem.submenu = priorityMenu
+            priorityMenu.delegate = self
+            menu.addItem(priorityItem)
+        }
+
         // Connection status
         let connectionItem = NSMenuItem(
             title: "Status: Disconnected",
@@ -142,6 +175,41 @@ final class StatusBarController {
         menu.addItem(quitItem)
 
         statusItem.menu = menu
+    }
+
+    func updateStemStatus(enabled: Bool, pausedFor: String?) {
+        stemControlItem?.state = enabled ? .on : .off
+        stemStatusItem?.title = pausedFor.map { "AirPods controls paused for " + $0 } ?? ""
+        stemStatusItem?.isHidden = pausedFor == nil
+    }
+
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        guard menu === priorityMenu else { return }
+        onOpenPriorityMenu?()
+        menu.removeAllItems()
+        let entries = priorityApps.merging(activeMicApps) { selected, _ in selected }
+        for (id, name) in entries.sorted(by: { $0.value.localizedCompare($1.value) == .orderedAscending }) {
+            let active = activeMicApps[id] != nil
+            let title = active ? name + " (using microphone)" : name
+            let item = NSMenuItem(title: title, action: #selector(changePriority(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = [id, name]
+            item.state = priorityApps[id] == nil ? .off : .on
+            menu.addItem(item)
+        }
+        if !entries.isEmpty { menu.addItem(.separator()) }
+        let choose = NSMenuItem(title: "Add Application…", action: #selector(choosePriorityApp), keyEquivalent: "")
+        choose.target = self
+        menu.addItem(choose)
+    }
+
+    @objc private func changePriority(_ item: NSMenuItem) {
+        guard let app = item.representedObject as? [String], app.count == 2 else { return }
+        onChangePriority?(app[0], app[1])
+    }
+
+    @objc private func choosePriorityApp() {
+        onChoosePriorityApp?()
     }
 
     private func setupObservers() {
@@ -358,7 +426,15 @@ final class StatusBarController {
     }
 
     @objc private func toggleMute() {
-        audioController.toggleMute()
+        if let onToggleMute {
+            onToggleMute()
+        } else {
+            audioController.toggleMute()
+        }
+    }
+
+    @objc private func toggleStemControl(_ item: NSMenuItem) {
+        onToggleStemControl?(item)
     }
 
     @objc private func reconnect() {
