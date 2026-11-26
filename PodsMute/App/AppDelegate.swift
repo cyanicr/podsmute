@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var priorityTimer: Timer?
     private var lastPriorityActivity = Date.distantPast
     private var pausedFor: String?
+    private let liveControlsKey = "AirPodsLiveControlsEnabled"
     private let priorityKey = "AirPodsPriorityApps"
     private lazy var priorityApps = UserDefaults.standard.dictionary(forKey: priorityKey) as? [String: String]
         ?? ["us.zoom.xos": "Zoom"]
@@ -58,6 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             RunLoop.main.add(timer, forMode: .common)
             priorityTimer = timer
         }
+        restoreLiveControlsPreference()
 
         print("[AppDelegate] Application ready")
         print("[AppDelegate] Press your AirPods button to toggle mute")
@@ -168,9 +170,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private func restoreLiveControlsPreference() {
+        guard UserDefaults.standard.bool(forKey: liveControlsKey) else { return }
+        guard AVAudioApplication.shared.recordPermission == .granted else {
+            UserDefaults.standard.set(false, forKey: liveControlsKey)
+            return
+        }
+        liveControlsEnabled = true
+        resumeStemControlIfNeeded()
+        updateStemStatus()
+    }
+
     private func toggleStemControl(_ item: NSMenuItem) {
         if liveControlsEnabled {
             liveControlsEnabled = false
+            UserDefaults.standard.set(false, forKey: liveControlsKey)
             stopStemControl()
             if pausedFor == nil {
                 audioAccessoryMonitor.startMonitoring()
@@ -192,6 +206,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
                 self.updateMicrophoneActivity()
                 self.liveControlsEnabled = true
+                UserDefaults.standard.set(true, forKey: self.liveControlsKey)
                 self.resumeStemControlIfNeeded()
                 self.updateStemStatus()
             }
@@ -245,7 +260,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try startStemControl()
         } catch {
-            liveControlsEnabled = false
             audioAccessoryMonitor.startMonitoring()
             showStemError(error.localizedDescription)
         }

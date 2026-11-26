@@ -77,7 +77,7 @@ PodsMute/
 
 ### Live AirPods Controls
 
-Turn on **Use Live AirPods Controls** in the menu and allow microphone access. PodsMute opens an input stream while this option is active and discards its audio buffers without saving or sending them.
+Turn on **Use Live AirPods Controls** in the menu and allow microphone access. PodsMute opens an input stream while this option is active and discards its audio buffers without saving or sending them. PodsMute remembers your choice when you reopen it.
 
 Under **Give AirPods Priority To**, select which apps should handle the gesture while using the microphone. Zoom is selected by default. The menu shows active microphone apps. Use **Add Application…** to select an app before it opens the microphone.
 
